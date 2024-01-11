@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { ActivityIndicator, MD2Colors } from "react-native-paper";
 import {
   AccountBackground,
   AccountCover,
@@ -10,10 +11,10 @@ import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 
-export const LoginScreen = () => {
+export const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { onLogin, error } = useContext(AuthenticationContext);
+  const { onLogin, isLoading, error } = useContext(AuthenticationContext);
   return (
     <AccountBackground>
       <AccountCover />
@@ -33,7 +34,6 @@ export const LoginScreen = () => {
             textContentType='password'
             secureTextEntry
             autoCapitalize='none'
-            secure
             onChangeText={(p) => setPassword(p)}
           />
         </Spacer>
@@ -43,15 +43,21 @@ export const LoginScreen = () => {
           </Spacer>
         )}
         <Spacer size='large'>
-          <AuthButton
+        {!isLoading ? <AuthButton
             icon='lock-open-outline'
             mode='contained'
             onPress={() => onLogin(email, password)}
           >
             Login
-          </AuthButton>
+          </AuthButton> : <ActivityIndicator animating={true} color={MD2Colors.blue300} /> }  
         </Spacer>
       </AccountContainer>
+
+      <Spacer size='large'>
+        <AuthButton mode='contained' onPress={() => navigation.goBack()}>
+          Back
+        </AuthButton>
+      </Spacer>
     </AccountBackground>
   );
 };
