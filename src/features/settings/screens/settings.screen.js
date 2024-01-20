@@ -15,6 +15,8 @@ const AvatarContainer = styled.View`
   align-items: center;
 `;
 
+
+
 export const SettingsScreen = ({ navigation }) => {
   const { onLogout, user } = useContext(AuthenticationContext);
   return (
